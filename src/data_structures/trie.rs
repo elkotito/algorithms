@@ -7,9 +7,16 @@ pub struct TrieNode<T> {
 }
 
 impl<T> TrieNode<T> {
-    pub fn new(count: usize) -> Self {
+    pub fn new() -> Self {
         Self {
-            count: count,
+            count: 0,
+            children: BTreeMap::new(),
+        }
+    }
+
+    pub fn with_count(count: usize) -> Self {
+        Self {
+            count,
             children: BTreeMap::new(),
         }
     }
@@ -23,7 +30,7 @@ impl<T: Clone + Ord> TrieNode<T> {
                 .children
                 .entry(item.clone())
                 .and_modify(|e| e.count += 1)
-                .or_insert_with(|| TrieNode::new(1));
+                .or_insert_with(|| TrieNode::with_count(1));
         }
     }
 }
